@@ -1,0 +1,83 @@
+function Print_Test_1(Input_Path,All_Data)
+%Leave One Subject OUT
+%   Detailed explanation goes here
+
+    Data_Out_Path   = strcat(Input_Path , "\Test Cases\Test Case 1");
+    Output_Cell = {{},{}};
+    Specific_Data = {};
+    Info = load('SubjectInfo.mat');
+    % Concatenate All Data for each subject alone
+    for i = 1 : 1 : 22
+        Specific_Data{1}{i} = vertcat(All_Data{1}{i}{:});
+        Specific_Data{2}{i} = vertcat(All_Data{2}{i}{:});
+        Output_Cell{1}{i} = [];
+        Output_Cell{2}{i} = [];
+    end
+    for i = 1 : 1 : 22
+        x = size(Output_Cell{1}{i},1);
+        Age = Info.data(i,2)*ones(x,1);
+        Gender = Info.data(i,3)*ones(x,1);
+        Height = Info.data(i,4*ones(x,1));
+        Weight = Info.data(i,5)*ones(x,1);
+        
+        % Concatenate all elements of All_Data except the i-th element
+        Output_Cell{1}{i} = vertcat(Output_Cell{1}{i}, Specific_Data{1}{[1:i-1 i+1:end]});
+        Output_Cell{2}{i} = vertcat(Output_Cell{2}{i}, Specific_Data{2}{[1:i-1 i+1:end]});
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_X_", num2str(i) ,".csv"), Output_Cell{1}{i});
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_X_", num2str(i) ,".csv"), Specific_Data{1}{i});
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_X_", num2str(i) ,".csv"), Output_Cell{2}{i});
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_X_", num2str(i) ,".csv"), Specific_Data{2}{i});
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_W_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_W_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_W_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_W_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_G_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_G_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_G_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_G_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_H_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_H_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_H_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_H_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Height]);  
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_A_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_A_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_A_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_A_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_WG_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_WG_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_WG_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Gender]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_WG_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Gender]); 
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_WH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_WH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_WH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_WH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Height]); 
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_WA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_WA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_WA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_WA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Weight, Age]); 
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_GH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_GH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_GH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_GH_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Height]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Input_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Height, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Input_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Height, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Train_Output_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Age]);
+        csvwrite(strcat(Data_Out_Path,"\Test_Output_Mat_GA_", num2str(i) ,".csv"), [Output_Cell{1}{i}, Gender, Age]);
+        
+    end
+
+end
+
+
+
+[Output_Cell{1}{i}, Height, Age]
+[Output_Cell{1}{i}, Weight, Gender, Height]
+[Output_Cell{1}{i}, Weight, Gender, Age]
+[Output_Cell{1}{i}, Weight, Height, Age]
+[Output_Cell{1}{i}, Gender, Height, Age]
+[Output_Cell{1}{i}, Weight, Gender, Height, Age]
+
